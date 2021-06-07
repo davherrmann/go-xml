@@ -3,6 +3,7 @@ package xsd
 import (
 	"encoding/xml"
 	"fmt"
+	"log"
 	"regexp"
 	"strconv"
 	"strings"
@@ -843,7 +844,9 @@ func parseElement(ns string, el *xmltree.Element) Element {
 	})
 	t, ok := e.Type.(linkedType)
 	if ok {
-		e.Name.Space = t.Space
+		// TODO is this correct?
+		log.Printf("not using NS from type='%s'", t)
+		// e.Name.Space = t.Space
 	}
 	e.Doc = string(doc)
 	e.Attr = el.StartElement.Attr
