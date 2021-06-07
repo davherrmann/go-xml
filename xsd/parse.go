@@ -146,7 +146,10 @@ func Parse(docs ...[]byte) ([]Schema, error) {
 
 	for _, root := range schema {
 		tns := root.Attr("", "targetNamespace")
-		s := Schema{TargetNS: tns, Types: make(map[xml.Name]Type)}
+		s, exists := parsed[tns]
+		if !exists {
+			s = Schema{TargetNS: tns, Types: make(map[xml.Name]Type)}
+		}
 		if err := s.parse(root); err != nil {
 			return nil, err
 		}
